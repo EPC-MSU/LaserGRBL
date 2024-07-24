@@ -706,6 +706,7 @@
     <Compile Include="ComWrapper\LaserWebESP8266.cs" />
     <Compile Include="ComWrapper\UsbSerial.cs" />
     <Compile Include="ComWrapper\Telnet.cs" />
+    <Compile Include="ComWrapper\XMLRPC.cs" />
     <Compile Include="ComWrapper\WebSocket\ByteOrder.cs" />
     <Compile Include="ComWrapper\WebSocket\CloseEventArgs.cs" />
     <Compile Include="ComWrapper\WebSocket\CloseStatusCode.cs" />

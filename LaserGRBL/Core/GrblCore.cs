@@ -1370,7 +1370,9 @@ namespace LaserGRBL
 
 		public void Configure(ComWrapper.WrapperType wraptype, params object[] conf)
 		{
-			if (wraptype == ComWrapper.WrapperType.UsbSerial && (com == null || com.GetType() != typeof(ComWrapper.UsbSerial)))
+			if (wraptype == ComWrapper.WrapperType.XMLRPC && (com == null || com.GetType() != typeof(ComWrapper.XMLRPC)))
+				com = new ComWrapper.XMLRPC();
+			else if (wraptype == ComWrapper.WrapperType.UsbSerial && (com == null || com.GetType() != typeof(ComWrapper.UsbSerial)))
 				com = new ComWrapper.UsbSerial();
 			else if (wraptype == ComWrapper.WrapperType.UsbSerial2 && (com == null || com.GetType() != typeof(ComWrapper.UsbSerial2)))
 				com = new ComWrapper.UsbSerial2();

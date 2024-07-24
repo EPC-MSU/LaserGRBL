@@ -71,6 +71,8 @@ namespace LaserGRBL
 
 			if (currentWrapper == ComWrapper.WrapperType.Telnet)
 				TxtAddress.Text = Settings.GetObject("Telnet Address", "127.0.0.1:23");	
+			else if (currentWrapper == ComWrapper.WrapperType.XMLRPC)
+				TxtAddress.Text = Settings.GetObject("XMLRPC Address", "127.0.0.1:23");	
 			else if (currentWrapper == ComWrapper.WrapperType.LaserWebESP8266)
 				TxtAddress.Text = Settings.GetObject("Websocket URL", "ws://127.0.0.1:81/"); 
 		}
@@ -192,7 +194,7 @@ namespace LaserGRBL
 		{
 			if ((currentWrapper == ComWrapper.WrapperType.UsbSerial || currentWrapper == ComWrapper.WrapperType.UsbSerial2) && CBPort.Text != null && CBSpeed.SelectedItem != null)
 				Core.Configure(currentWrapper, CBPort.Text, (int)CBSpeed.SelectedItem);
-			else if (currentWrapper == ComWrapper.WrapperType.Telnet || currentWrapper == ComWrapper.WrapperType.LaserWebESP8266)
+			else if (currentWrapper == ComWrapper.WrapperType.XMLRPC || currentWrapper == ComWrapper.WrapperType.Telnet || currentWrapper == ComWrapper.WrapperType.LaserWebESP8266)
 				Core.Configure(currentWrapper, (string)TxtAddress.Text);
 			else if (currentWrapper == ComWrapper.WrapperType.Emulator)
 				Core.Configure(currentWrapper);
@@ -298,8 +300,8 @@ namespace LaserGRBL
 		{
 			tableLayoutPanel4.SuspendLayout();
 			CBPort.Visible = CBSpeed.Visible = LblComPort.Visible = LblBaudRate.Visible = (currentWrapper == ComWrapper.WrapperType.UsbSerial || currentWrapper == ComWrapper.WrapperType.UsbSerial2);
-			TxtAddress.Visible = LblAddress.Visible = (currentWrapper == ComWrapper.WrapperType.Telnet || currentWrapper == ComWrapper.WrapperType.LaserWebESP8266);
-			LblAddress.Text = (currentWrapper == ComWrapper.WrapperType.Telnet ? "IP:PORT" : "Socket URL");
+			TxtAddress.Visible = LblAddress.Visible = (currentWrapper == ComWrapper.WrapperType.XMLRPC || currentWrapper == ComWrapper.WrapperType.Telnet || currentWrapper == ComWrapper.WrapperType.LaserWebESP8266);
+			LblAddress.Text = (currentWrapper == ComWrapper.WrapperType.Telnet || currentWrapper == ComWrapper.WrapperType.XMLRPC ? "IP:PORT" : "Socket URL");
 			TxtEmulator.Visible = LblEmulator.Visible = (currentWrapper == ComWrapper.WrapperType.Emulator);
 			tableLayoutPanel4.ResumeLayout();
 
@@ -310,6 +312,8 @@ namespace LaserGRBL
 			{
 				if (currentWrapper == ComWrapper.WrapperType.Telnet)
 					Settings.SetObject("Telnet Address", TxtAddress.Text);
+				else if (currentWrapper == ComWrapper.WrapperType.XMLRPC)
+					Settings.SetObject("XMLRPC Address", TxtAddress.Text);
 				else if (currentWrapper == ComWrapper.WrapperType.LaserWebESP8266)
 					Settings.SetObject("Websocket URL", TxtAddress.Text);
 			}

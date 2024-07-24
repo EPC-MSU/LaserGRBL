@@ -408,6 +408,8 @@ namespace LaserGRBL
 					url = "https://lasergrbl.com/usage/arduino-connection/";
 				else if (wt == ComWrapper.WrapperType.Telnet || wt == ComWrapper.WrapperType.LaserWebESP8266)
 					url = "https://lasergrbl.com/usage/wifi-with-esp8266/";
+				else if (wt == ComWrapper.WrapperType.XMLRPC)
+					url = "https://github.com/EPC-MSU/LaserGRBL";
 
 				if (url != null)
 					MessageBox.Show(this, Strings.ProblemConnectingText, Strings.ProblemConnectingTitle, MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, 0, url);
@@ -473,6 +475,7 @@ namespace LaserGRBL
 			{
 				if (F2.ShowDialog(this) == DialogResult.OK && Core.DetectedIP != null)
 				{
+					// TODO: XMLRPC
 					ConnectionForm.ConfigFromOrtur($"{Core.DetectedIP}:{GrblCore.Configuration.TelnetPort}");
 					Settings.SetObject("ComWrapper Protocol", ComWrapper.WrapperType.Telnet);
 					Core.CloseCom(true);
@@ -578,6 +581,7 @@ namespace LaserGRBL
 		private bool IsConfiguredForWiFi()
 		{
 			ComWrapper.WrapperType wt = Settings.GetObject("ComWrapper Protocol", ComWrapper.WrapperType.UsbSerial);
+			// TODO: XMLRPC
 			return (wt == ComWrapper.WrapperType.LaserWebESP8266 || wt == ComWrapper.WrapperType.Telnet);
 		}
 

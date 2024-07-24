@@ -94,7 +94,7 @@ namespace LaserGRBL.WiFiDiscovery
 			private long mPingTime;
 			public string MAC;
 			public string HostName;
-			public string Telnet;
+			public string Telnet; // TODO: XMLRPC ALL THIS FILE
 
 			public IPAddress IP;
 			public int Port;

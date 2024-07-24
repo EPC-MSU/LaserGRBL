@@ -26,6 +26,8 @@ namespace LaserGRBL.WiFiDiscovery
 			ComWrapper.WrapperType currentWrapper = Settings.GetObject("ComWrapper Protocol", ComWrapper.WrapperType.UsbSerial);
 			if (currentWrapper == ComWrapper.WrapperType.Telnet)
 				UdPort.Value = 23;
+			else if (currentWrapper == ComWrapper.WrapperType.XMLRPC)
+				UdPort.Value = 40000;
 			else if (currentWrapper == ComWrapper.WrapperType.LaserWebESP8266)
 				UdPort.Value = 81;
 			else
@@ -158,7 +160,7 @@ namespace LaserGRBL.WiFiDiscovery
 			if (result != null)
 			{
 				ComWrapper.WrapperType currentWrapper = Settings.GetObject("ComWrapper Protocol", ComWrapper.WrapperType.UsbSerial);
-				if (currentWrapper == ComWrapper.WrapperType.Telnet)
+				if (currentWrapper == ComWrapper.WrapperType.Telnet || currentWrapper == ComWrapper.WrapperType.XMLRPC)
 					RV = $"{result.IP}:{result.Port}";
 				else if (currentWrapper == ComWrapper.WrapperType.LaserWebESP8266)
 					RV = $"ws://{result.IP}:{result.Port}/";
@@ -219,7 +221,7 @@ namespace LaserGRBL.WiFiDiscovery
 			SubItems[1].Text = RI.Ping;
 			SubItems[2].Text = RI.HostName;
 			SubItems[3].Text = RI.MAC;
-			SubItems[4].Text = RI.Telnet;
+			SubItems[4].Text = RI.Telnet; // TODO: XMLRPC
 		}
 	}
 }
