@@ -18,6 +18,32 @@ using System.Threading;
 using LaserGRBL.SvgConverter;
 using LaserGRBL.Obj3D;
 using SharpGL.SceneGraph;
+using System.Security.Cryptography.Xml;
+using System.Diagnostics;
+
+
+using CookComputing.XmlRpc;
+
+namespace xmlrpc
+{
+    [XmlRpcUrl("http://localhost:40000")]
+    public interface FlRPC : IXmlRpcProxy
+    {
+        [XmlRpcMethod("add_g_command")]
+        int add_g_command(string command);
+    }
+
+
+    class Program
+    {
+        public void send_command(string command)
+        {
+            FlRPC proxy = XmlRpcProxyGen.Create<FlRPC>();
+            Console.WriteLine(proxy.add_g_command(command));
+        }
+    }
+}
+
 
 namespace LaserGRBL
 {
@@ -138,9 +164,28 @@ namespace LaserGRBL
 					using (System.IO.StreamReader sr = new System.IO.StreamReader(filename))
 					{
 						string line = null;
-						while ((line = sr.ReadLine()) != null)
+
+                        string last_G = null;
+						//string last_X = null;
+						//string last_Y = null;
+
+						// marakulin
+
+						xmlrpc.Program ppp = new xmlrpc.Program();
+						string sample_command = "G2 X69 Y69 I69 J69 F69";
+                        ppp.send_command(sample_command);
+
+
+                        while ((line = sr.ReadLine()) != null)
 							if ((line = line.Trim()).Length > 0)
 							{
+								if (line.StartsWith("X") | line.StartsWith("Y") | line.StartsWith("F")) {
+									line = last_G + " " + line;
+                                }
+								else if (line.StartsWith("G"))
+								{
+									last_G = line.Substring(0, 2);
+                                }
 								GrblCommand cmd = new GrblCommand(line);
 								if (!cmd.IsEmpty)
 									list.Add(cmd);
